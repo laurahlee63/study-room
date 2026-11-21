@@ -241,6 +241,42 @@
     font-size: 14px;
   }
   .point strong { color: var(--accent); }
+  .guide-note {
+    margin: 10px 0 0;
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.62;
+  }
+  .guide-note strong { color: var(--ink); }
+  .exam-box {
+    margin: 16px 0 2px;
+    padding: 12px 14px;
+    border: 1px solid var(--line-strong);
+    font-size: 14px;
+  }
+  .exam-box-title {
+    margin: 0 0 8px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .exam-box ul {
+    margin: 0;
+    padding-left: 16px;
+  }
+  .exam-box li {
+    margin: 4px 0;
+    font-size: 14px;
+    line-height: 1.66;
+  }
+  .exam-box li:last-child { margin-bottom: 0; }
+  .md-overview {
+    margin: 4px 0 8px;
+    scroll-margin-top: 64px;
+  }
+  .md-overview h2:first-child { margin-top: 22px; }
   .inline-jump {
     margin-top: 12px;
     padding-top: 10px;
@@ -355,6 +391,7 @@
     <div class="toc-box" id="toc-roadmap">
       <div class="toc-title">로드맵 목차 (누르면 해당 장으로 이동)</div>
       <ul class="toc-list">
+        <li><a href="#md-overview"><span>0. MDEET 시험 구조와 최근 기출 경향</span><span class="toc-sub">한눈에 보기</span></a></li>
         <li><a href="#md-ch1"><span>1장 · 숨 쉬고 피가 도는 몸</span><span class="toc-sub">호흡·순환 · 기체/산염기</span></a></li>
         <li><a href="#md-ch2"><span>2장 · 밥 먹고 힘 나는 몸</span><span class="toc-sub">소화·대사 · 열역학/입체</span></a></li>
         <li><a href="#md-ch3"><span>3장 · 짜고 붓고 땀 나는 몸</span><span class="toc-sub">배설·삼투 · 결합/유기물성</span></a></li>
@@ -365,6 +402,41 @@
         <li><a href="#md-map"><span>공식 출제범위 20개 단원 검증표</span><span class="toc-sub">누락 0%</span></a></li>
       </ul>
     </div>
+
+    <section class="md-overview" id="md-overview">
+      <h2>0. MDEET 시험 구조와 최근 기출 경향</h2>
+
+      <h3>MDEET는 어떤 시험인가</h3>
+      <p>의·치의학교육입문검사협의회가 <strong>매년 8월에 연 1회</strong> 시행하는 <strong>5지선다형</strong> 시험입니다. 의학·치의학전문대학원과 부산대 한의학전문대학원(KEET 대신 MDEET 성적을 반영합니다) 진학에 쓰입니다. 최근 시행은 2026년 8월 9일(일) 09:00~12:00이었습니다.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th class="c">교시</th><th>영역</th><th class="c">시간</th><th class="c">문항</th><th class="c">배점</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="c">1</td><td><strong>자연과학Ⅰ · 생명과학</strong></td><td class="c">09:00~10:15<br>(75분)</td><td class="c">30</td><td class="c">120점 만점</td></tr>
+            <tr><td class="c">2</td><td><strong>자연과학Ⅱ · 화학</strong><br>앞 20문항 일반화학 + 뒤 10문항 유기화학</td><td class="c">10:45~12:00<br>(75분)</td><td class="c">30</td><td class="c">120점 만점</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul>
+        <li><strong>배점</strong> — 3점·5점 문항은 배점이 표시되고 4점 문항은 표시가 없습니다. 과목당 120점 만점이며 <strong>4점 문항이 약 3분의 2</strong>를 차지합니다.</li>
+        <li><strong>1교시 자연과학Ⅰ(생명과학)</strong> — 식물·생태·분류·진화(이른바 식생분진)는 출제되지 않습니다. <strong>동물 생리·유전·세포·면역·대사·발생·원핵세포와 바이러스</strong>에 집중됩니다.</li>
+        <li><strong>2교시 자연과학Ⅱ(화학)</strong> — 물리와 통계, 3단계 이상의 복잡한 유기 합성과 고분자 화학은 출제 범위에서 빠집니다.</li>
+      </ul>
+
+      <h3>최근 기출 경향</h3>
+      <ul>
+        <li><strong>단순 암기 단답형보다 긴 자료 해석</strong> — 정의를 그대로 묻는 문항보다 <strong>긴 실험 설계·표·그래프를 읽고 변인을 바꿨을 때 결과가 어느 방향으로 움직이는지 추론</strong>하는 문항의 비중이 큽니다.</li>
+        <li><strong>화학은 노력이 점수로 이어지고, 생물은 매년 낯설다</strong> — 자연과학Ⅱ(화학)는 기출에서 반복되는 <strong>핵심 원리와 계산 틀</strong>을 잡으면 공부한 만큼 안정적으로 점수가 나옵니다. 반면 자연과학Ⅰ(생물)은 <strong>해마다 신유형과 낯선 실험 자료</strong>가 나와 해석 변수가 커서, 개념을 외우는 것만으로는 지문에서 막히기 쉽습니다.</li>
+      </ul>
+
+      <h3>그래서 이 공부방은 '몸 → 원리 줌인'으로 짰습니다</h3>
+      <ol>
+        <li><strong>생물과 화학을 한 맥락으로 묶었습니다.</strong> 실제 몸의 현상(동물 생리·대사·신경)과 일반·유기화학(기체·평형·산염기·열역학·입체·작용기)이 같은 장면 안에서 만나도록 배치했습니다. 낯선 생물 실험 지문을 만나도 <strong>화학 원리가 먼저 보이는</strong> 상태를 목표로 합니다.</li>
+        <li><strong>공식 암기보다 방향 추론을 먼저 세웁니다.</strong> 단원마다 <strong>몸의 장면 → 생물 기작 → 화학 원리 → 실제 출제 방식</strong> 순으로 내려가며, 무엇이 바뀌면 평형·속도·곡선이 어느 쪽으로 가는지를 스스로 추론하는 힘부터 만듭니다.</li>
+      </ol>
+    </section>
 
     <div class="principles">
       <p><strong>1. 줌인 순서</strong> 눈에 보이는 몸의 현상 → 세포·생리 → 생화학 → 일반·유기화학 미시 원리 순서로 내려갑니다.</p>
@@ -526,6 +598,7 @@
       <div class="eyebrow">MDEET 몸 → 원리 첫 번째 레슨 · 1장</div>
       <h1>숨 쉬고 피가 도는 몸</h1>
       <p class="lead">폐포를 넘어 손끝까지 가는 산소 한 모금과, 운동을 해도 pH 7.4를 지키는 혈액 한 방울에서 생물·일반화학 6단원을 한 번에 끌어냅니다.</p>
+      <p class="guide-note">이 장의 여섯 소단원 모두 끝에 <strong>실제 시험엔 이렇게 나와요</strong> 상자를 붙였습니다. 앞으로 2~7장을 채울 때도 각 개념마다 실제 출제 방식과 단골 함정을 함께 붙여 둡니다.</p>
     </header>
 
     <div class="toc-box" id="toc-ch01">
@@ -558,6 +631,15 @@
       <div class="point">
         <strong>보어 효과 (기출 단골):</strong> 활발히 뛰는 근육은 <strong>온도↑ · PCO₂↑ · pH↓</strong>가 되며 산소 해리 곡선이 <strong>오른쪽(우편위)</strong>으로 이동해 같은 PO₂에서도 조직에 O₂를 더 많이 내려놓습니다. 반대로 태아 헤모글로빈(HbF)은 좌편위되어 모체 혈액에서 O₂를 받아옵니다.
       </div>
+      <div class="exam-box">
+        <div class="exam-box-title">실제 시험엔 이렇게 나와요</div>
+        <ul>
+          <li><strong>해리 곡선 여러 개 비교</strong> — 같은 헤모글로빈의 산소 해리 곡선을 조건만 바꿔 4~5개 겹쳐 놓고, <strong>pH·온도·PCO₂·2,3-BPG·태아 HbF</strong> 가운데 무엇이 곡선을 어느 쪽(좌/우)으로 옮겼는지 판별하게 합니다. 우편위 = 같은 PO₂에서 조직에 O₂를 더 내려놓음, 좌편위 = O₂를 더 붙잡음으로 읽으면 됩니다.</li>
+          <li><strong>조직에 전달된 산소량 계산</strong> — 동맥혈과 정맥혈의 포화도 차이를 주고 실제 전달량을 계산시킵니다. Hb 15 g/dL, Hb 1 g당 O₂ 1.34 mL라면 포화도 차 22%p일 때 약 4.4 mL/dL가 조직으로 넘어간 셈입니다.</li>
+          <li><strong>분압 비교 선지</strong> — 폐동맥은 이름과 달리 <strong>정맥혈(PO₂ 약 40 mmHg)</strong>, 폐정맥은 <strong>동맥혈(PO₂ 약 100 mmHg)</strong>이라는 점을 뒤집어 놓는 선지가 단골입니다.</li>
+          <li><strong>단골 함정</strong> — "우편위면 포화도가 크다", "HbF는 우편위", "2,3-BPG가 늘면 친화도가 커진다"는 서술은 모두 방향이 반대입니다.</li>
+        </ul>
+      </div>
     </section>
 
     <section class="zoom" id="m1-gas">
@@ -575,6 +657,15 @@
         <li><strong>고산병</strong>: 산소 비율(약 21%)은 그대로여도 전체 대기압이 낮아져 산소 분압이 떨어집니다.</li>
         <li><strong>잠수병(감압병)</strong>: 수심 깊은 곳에서 혈액에 많이 녹아 있던 질소(N₂)가 급상승(압력↓) 때 기포로 튀어나옵니다.</li>
       </ul>
+      <div class="exam-box">
+        <div class="exam-box-title">실제 시험엔 이렇게 나와요</div>
+        <ul>
+          <li><strong>혼합 기체 용기 계산</strong> — 예를 들어 O₂ 0.2 mol과 N₂ 0.3 mol을 2 L, 27℃ 용기에 넣으면 전체 0.5 mol로 전체 압력은 약 6.2 atm, O₂ 몰분율 0.4이므로 부분압은 약 2.5 atm입니다. 몰분율 → 부분압 순서로 묻습니다.</li>
+          <li><strong>수상치환 포집의 수증기압 함정</strong> — 물 위에서 기체를 모으면 용기 안 건조 기체의 압력은 <strong>대기압 − 그 온도의 수증기압</strong>입니다. 25℃(수증기압 약 24 mmHg)에서 대기압 760 mmHg라면 736 mmHg로 계산해야 합니다. 대기압을 그대로 대입하면 틀리는, 가장 흔한 함정입니다.</li>
+          <li><strong>용해도 비교 자료형</strong> — 온도를 올리거나 압력을 낮췄을 때 혈중·수중 기체 농도가 어떻게 달라지는지 표·그래프로 비교하게 합니다.</li>
+          <li><strong>단골 함정</strong> — 헨리의 법칙에 넣는 압력은 <strong>전체 압력이 아니라 그 기체의 부분압</strong>이고, 온도가 오르면 용해도와 k_H는 <strong>함께 줄어듭니다</strong>.</li>
+        </ul>
+      </div>
     </section>
 
     <section class="zoom" id="m1-eq">
@@ -594,6 +685,15 @@
           </tbody>
         </table>
       </div>
+      <div class="exam-box">
+        <div class="exam-box-title">실제 시험엔 이렇게 나와요</div>
+        <ul>
+          <li><strong>동맥혈 표 판독 (생물+화학 통합형)</strong> — 과호흡 환자나 호흡성·대사성 산증·알칼리증 환자의 <strong>pH, PCO₂, [HCO₃⁻]</strong> 세 값을 표로 주고, 평형이 어느 쪽으로 이동했는지와 <strong>폐(호흡)와 콩팥(중탄산염)이 어느 방향으로 보상하는지</strong>를 함께 묻습니다.</li>
+          <li><strong>네 가지 조합</strong> — 호흡성 산증은 pH↓·PCO₂↑, 호흡성 알칼리증은 pH↑·PCO₂↓, 대사성 산증은 pH↓·[HCO₃⁻]↓(보상으로 PCO₂도 ↓), 대사성 알칼리증은 pH↑·[HCO₃⁻]↑로 읽습니다.</li>
+          <li><strong>과호흡·호흡 억제 문항</strong> — 과호흡이면 CO₂ 배출↑ → 왼쪽 이동 → pH↑, 호흡 억제면 CO₂ 축적 → 오른쪽 이동 → pH↓. 여기에 보어 효과(해리 곡선 이동)를 겹쳐 놓기도 합니다.</li>
+          <li><strong>단골 함정</strong> — 보상은 pH를 정상 쪽으로 <strong>밀어 줄 뿐 원인을 없애지는 못한다</strong>는 서술, 그리고 농도·압력을 바꿔도 <strong>평형 상수 K는 변하지 않는다</strong>(K는 온도만의 함수)는 서술이 자주 나옵니다.</li>
+        </ul>
+      </div>
     </section>
 
     <section class="zoom" id="m1-acid">
@@ -607,6 +707,15 @@
         <li><strong>유효 완충 구간</strong>: [A⁻] = [HA]일 때(pH = pKₐ) 완충 능력이 최대이며, 보통 <strong>pKₐ ± 1</strong> 범위입니다.</li>
         <li><strong>희석 함정</strong>: 완충 용액에 물을 타도 비율이 같아 pH 자체는 거의 안 변하지만, 버틸 수 있는 용량(완충 용량)은 줄어듭니다.</li>
       </ul>
+      <div class="exam-box">
+        <div class="exam-box-title">실제 시험엔 이렇게 나와요</div>
+        <ul>
+          <li><strong>완충계 고르기</strong> — 여러 약산의 pKₐ 표를 주고 목표 pH에 가장 가까운(보통 pKₐ ± 1 안) 완충계를 고르게 합니다. 혈액이면 pKₐ 6.1의 탄산계에 [HCO₃⁻] : [H₂CO₃] ≈ 20 : 1을 넣어 pH 7.4가 나오는지 계산합니다(log 20 ≈ 1.3 → 6.1 + 1.3 = 7.4).</li>
+          <li><strong>강산·강염기 소량 첨가 후 pH 계산</strong> — 넣은 몰수만큼 HA는 줄고 A⁻는 늘어난 것으로 다시 세운 뒤 헨더슨-하셀발흐 식으로 pH를 재계산시키고, 같은 양을 물에 넣었을 때의 pH 변화 폭과 비교하게 합니다.</li>
+          <li><strong>희석 함정</strong> — 완충 용액을 물로 희석하면 두 화학종이 같은 비율로 묶여 <strong>pH는 거의 그대로</strong>지만 <strong>완충 용량은 줄어듭니다</strong>. "희석하면 pH가 7에 가까워진다"는 강산·강염기 용액의 성질을 완충 용액에 옮겨 놓은 함정 보기입니다.</li>
+          <li><strong>단골 함정</strong> — [A⁻] = [HA]인 지점이 pH = pKₐ이며 완충 능력이 최대라는 것과, 완충 범위를 벗어나면 소량의 산·염기에도 pH가 크게 흔들린다는 것을 구분해야 합니다.</li>
+        </ul>
+      </div>
     </section>
 
     <section class="zoom" id="m1-heme">
@@ -616,6 +725,15 @@
         <li><strong>헴의 배위수 6</strong>: 중심 금속 <strong>Fe²⁺(루이스 산)</strong>가 네 자리 <strong>포르피린 고리</strong>(질소 4개) + 글로빈의 히스티딘(5번째) + O₂(6번째)와 결합해 6배위 팔면체 착물을 이룹니다.</li>
         <li><strong>CO 중독과 고압 산소 치료</strong>: CO는 Fe²⁺ 결합력이 O₂의 200배 이상이며 해리 곡선을 좌편위시킵니다. 고압 100% O₂는 헨리의 법칙으로 혈장 용존 O₂를 늘리고 HbCO + O₂ ⇌ HbO₂ + CO 평형을 오른쪽으로 밉니다.</li>
       </ul>
+      <div class="exam-box">
+        <div class="exam-box-title">실제 시험엔 이렇게 나와요</div>
+        <ul>
+          <li><strong>산화수·배위수 비교</strong> — 정상 헴의 <strong>Fe²⁺</strong>와 산화된 <strong>메트헤모글로빈의 Fe³⁺</strong>를 나란히 놓고 산화수와 d 전자 수, 배위수를 비교하게 합니다. 포르피린 4자리 + 히스티딘 1자리 + O₂ 1자리 = <strong>배위수 6(팔면체)</strong>이며, Fe³⁺는 O₂를 제대로 결합하지 못해 산소 운반이 막힙니다.</li>
+          <li><strong>구조 변화 서술</strong> — O₂가 결합하면 Fe²⁺가 <strong>고스핀(홀전자 4개)에서 저스핀(홀전자 0개)</strong>으로 바뀌고, 이온 반지름이 줄어 <strong>포르피린 평면 안쪽으로 당겨집니다</strong>. 그 움직임이 5번째 히스티딘을 끌어당겨 T 상태를 R 상태로 뒤집고 나머지 헴의 O₂ 친화도를 높입니다. 이것이 시그모이드 곡선(협동적 결합)의 원리이며, 이 연쇄를 순서대로 배열하는 문항이 나옵니다.</li>
+          <li><strong>CO 경쟁 평형</strong> — HbCO + O₂ ⇌ HbO₂ + CO에서 CO 쪽으로 크게 치우친 평형을 고압 100% O₂가 오른쪽으로 밀어낸다는 선지가 나옵니다.</li>
+          <li><strong>단골 함정</strong> — "헴의 중심 금속은 Fe³⁺", "포르피린은 한자리 리간드", "CO 중독이면 남은 헤모글로빈의 곡선이 우편위"라는 서술은 모두 틀린 쪽입니다.</li>
+        </ul>
+      </div>
     </section>
 
     <section class="zoom" id="m1-titr">
@@ -631,6 +749,15 @@
             <tr><td>당량점 이후</td><td>과량 OH⁻ 지배</td><td>n_산·M_산·V_산 = n_염기·M_염기·V_염기</td></tr>
           </tbody>
         </table>
+      </div>
+      <div class="exam-box">
+        <div class="exam-box-title">실제 시험엔 이렇게 나와요</div>
+        <ul>
+          <li><strong>네 지점 비교</strong> — 적정 곡선 위에 초기·반당량점·당량점·과량 네 지점을 찍고, 지점마다 <strong>[HA]와 [A⁻] 중 무엇이 큰지</strong>, 주된 화학종이 무엇인지, pH가 어떤 식으로 계산되는지를 채우게 합니다.</li>
+          <li><strong>당량점 pH &gt; 7인 이유</strong> — 약산의 짝염기 A⁻가 물에서 염기성 가수분해를 하기 때문입니다. 강산-강염기 적정의 당량점(pH 7)과 섞어 놓는 선지가 단골입니다.</li>
+          <li><strong>지시약 변색 범위 선택</strong> — 변색 범위(pKₐ ± 1)가 <strong>당량점 pH를 품는</strong> 지시약을 고르게 합니다. 약산-강염기에는 페놀프탈레인(8.2~10.0)이 맞고, 메틸오렌지(3.1~4.4)는 당량점보다 훨씬 낮아 부적절합니다.</li>
+          <li><strong>단골 함정</strong> — 반당량점에서 pH = pKₐ라는 성질은 약산을 강염기로 적정할 때의 이야기이고, 기울기가 완만한 완충 구간과 당량점 직전의 급격한 구간을 서로 바꿔 서술하는 보기도 자주 나옵니다.</li>
+        </ul>
       </div>
     </section>
 
