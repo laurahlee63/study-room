@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MDEET 몸 → 원리 줌인 공부방</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #111111;
+    --muted: #555555;
+    --line: #e5e7eb;
+    --line-strong: #111111;
+    --soft: #f8f9fa;
+    --accent: #1e3a8a;
+    --ok: #166534;
+    --warn: #991b1b;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+    line-height: 1.72;
+    -webkit-text-size-adjust: 100%;
+  }
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .nav-tabs {
+    display: flex;
+    gap: 18px;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 13px 2px 11px;
+    font-family: inherit;
+    font-size: 14.5px;
+    color: var(--muted);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .nav-btn.active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+    font-weight: 700;
+  }
+  .toc-top-btn {
+    background: none;
+    border: 1px solid var(--line);
+    padding: 5px 10px;
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toc-top-btn:hover {
+    border-color: var(--line-strong);
+    color: var(--ink);
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 18px 72px;
+  }
+  .view { display: none; }
+  .view.active { display: block; }
+  header {
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line-strong);
+    margin-bottom: 20px;
+  }
+  .eyebrow {
+    font-size: 12.5px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 24px;
+    line-height: 1.32;
+    margin: 0 0 10px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .lead {
+    margin: 0;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .toc-box {
+    margin: 18px 0 26px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    scroll-margin-top: 64px;
+  }
+  .toc-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .toc-list li {
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+  .toc-list li:first-child { border-top: none; }
+  .toc-list a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    padding: 7px 0;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .toc-list a:hover { color: var(--accent); }
+  .toc-sub {
+    font-size: 12.5px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .principles {
+    margin: 20px 0 28px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    background: var(--soft);
+    font-size: 14px;
+  }
+  .principles p { margin: 5px 0; }
+  h2 {
+    font-size: 18px;
+    margin: 32px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    scroll-margin-top: 64px;
+  }
+  .chapter, section.zoom {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 64px;
+  }
+  .chapter:last-of-type, section.zoom:last-of-type {
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .ch-num, .step-tag {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 3px;
+  }
+  .ch-title, section.zoom h2 {
+    font-size: 18.5px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    padding: 0;
+    border: none;
+    line-height: 1.35;
+  }
+  h3 {
+    font-size: 15.5px;
+    margin: 16px 0 6px;
+    font-weight: 700;
+  }
+  p { margin: 0 0 10px; font-size: 15px; }
+  ul { margin: 5px 0 10px; padding-left: 18px; }
+  li { margin: 5px 0; font-size: 14.5px; }
+  .scene, .scene-box {
+    font-size: 14.5px;
+    padding: 12px 14px;
+    border-left: 2px solid var(--line-strong);
+    background: var(--soft);
+    margin: 0 0 14px;
+  }
+  .scene-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .step { margin-top: 10px; }
+  .step-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .tier {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .eq {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: var(--soft);
+    border: 1px solid var(--line);
+    font-size: 14.5px;
+    font-weight: 600;
+    overflow-x: auto;
+  }
+  .eq small {
+    display: block;
+    margin-top: 4px;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .point {
+    margin: 12px 0 4px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--accent);
+    font-size: 14px;
+  }
+  .point strong { color: var(--accent); }
+  .inline-jump {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+  .jump-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .tbl-wrap {
+    overflow-x: auto;
+    margin-top: 10px;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  th, td {
+    text-align: left;
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    font-weight: 700;
+    background: var(--soft);
+    white-space: nowrap;
+  }
+  tr:last-child td { border-bottom: none; }
+  .c { text-align: center; white-space: nowrap; }
+  .quiz-wrap { margin-top: 28px; scroll-margin-top: 64px; }
+  .quiz-head {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .quiz-sub { margin: 0 0 14px; font-size: 14px; color: var(--muted); }
+  .q-item { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .q-item:last-child { border-bottom: 1px solid var(--line-strong); }
+  .q-num { font-size: 12.5px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .q-text { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .choices { display: flex; flex-direction: column; gap: 6px; }
+  .choice-btn {
+    width: 100%;
+    text-align: left;
+    background: #ffffff;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    padding: 9px 12px;
+    font-size: 14.2px;
+    line-height: 1.5;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .choice-btn:hover { border-color: var(--line-strong); }
+  .choice-btn.correct { border-color: var(--ok); background: #f0fdf4; font-weight: 600; }
+  .choice-btn.wrong { border-color: var(--warn); background: #fef2f2; }
+  .q-exp {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--soft);
+    border-left: 2px solid var(--line-strong);
+    font-size: 14px;
+  }
+  .q-exp.open { display: block; }
+  .foot-nav {
+    margin-top: 26px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<nav class="topbar" aria-label="공부방 이동">
+  <div class="topbar-inner">
+    <div class="nav-tabs">
+      <button class="nav-btn active" data-target="view-roadmap">전체 로드맵 (7장)</button>
+      <button class="nav-btn" data-target="view-ch01">1장 · 숨 쉬고 피가 도는 몸</button>
+    </div>
+    <button class="toc-top-btn" id="jump-toc">목차 ↑</button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <!-- ================= 전체 로드맵 뷰 ================= -->
+  <div id="view-roadmap" class="view active">
+    <header>
+      <div class="eyebrow">2028 부산대 한의전 · MDEET 줌인 커리큘럼</div>
+      <h1>몸에서 원리로 내려가는 MDEET 로드맵</h1>
+      <p class="lead">공식 출제범위 20개 전 소단원(생물 30 + 화학 30 = 60문항)을 누락 없이 7장에 배치한 순서표입니다.</p>
+    </header>
+
+    <div class="toc-box" id="toc-roadmap">
+      <div class="toc-title">로드맵 목차 (누르면 해당 장으로 이동)</div>
+      <ul class="toc-list">
+        <li><a href="#md-ch1"><span>1장 · 숨 쉬고 피가 도는 몸</span><span class="toc-sub">호흡·순환 · 기체/산염기</span></a></li>
+        <li><a href="#md-ch2"><span>2장 · 밥 먹고 힘 나는 몸</span><span class="toc-sub">소화·대사 · 열역학/입체</span></a></li>
+        <li><a href="#md-ch3"><span>3장 · 짜고 붓고 땀 나는 몸</span><span class="toc-sub">배설·삼투 · 결합/유기물성</span></a></li>
+        <li><a href="#md-ch4"><span>4장 · 느끼고 움직이고 생각하는 몸</span><span class="toc-sub">신경·근육 · 주기성/전기화학</span></a></li>
+        <li><a href="#md-ch5"><span>5장 · 아프고 낫는 몸</span><span class="toc-sub">면역·세균 · 공명/핵심유기</span></a></li>
+        <li><a href="#md-ch6"><span>6장 · 닮고 자라고 고치는 몸</span><span class="toc-sub">유전·분열 · 염기쌍/아실</span></a></li>
+        <li><a href="#md-ch7"><span>7장 · 세포 하나가 사람이 되기까지</span><span class="toc-sub">생식발생 · 명명/실험총정리</span></a></li>
+        <li><a href="#md-map"><span>공식 출제범위 20개 단원 검증표</span><span class="toc-sub">누락 0%</span></a></li>
+      </ul>
+    </div>
+
+    <div class="principles">
+      <p><strong>1. 줌인 순서</strong> 눈에 보이는 몸의 현상 → 세포·생리 → 생화학 → 일반·유기화학 미시 원리 순서로 내려갑니다.</p>
+      <p><strong>2. 누락 제로</strong> 최근 7개년 기출 비중(S·A·B)과 20개 공식 출제 단원을 맨 아래 표에서 1:1로 검증했습니다.</p>
+    </div>
+
+    <article class="chapter" id="md-ch1">
+      <div class="ch-num">1장</div>
+      <h3 class="ch-title">숨 쉬고 피가 도는 몸 (호흡 · 순환 · 혈액)</h3>
+      <div class="scene"><strong>몸의 장면</strong> 숨을 들이마시면 산소가 폐포를 넘어 피를 타고 손끝까지 가고, 심장이 뿜어내는 피는 격한 운동을 해도 pH 7.4 안팎을 지킵니다.</div>
+      <div class="step">
+        <div class="step-label">1단 줌인 · 생물 (동물 생리 [S])</div>
+        <p>폐포 가스교환, 심장 박동과 혈압, 헤모글로빈의 산소 해리 곡선(보어 효과).</p>
+      </div>
+      <div class="step">
+        <div class="step-label">2단 줌인 · 일반화학</div>
+        <ul>
+          <li><strong>기체·액체·고체·용액</strong> <span class="tier">[S · 3.0문항]</span> — 폐포 안팎 O₂·CO₂ 분압(돌턴의 법칙), 헨리의 법칙(혈중 기체 용해도·잠수병).</li>
+          <li><strong>화학 평형</strong> <span class="tier">[A · 2.0문항]</span> — 혈액 탄산 평형(CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻)과 르샤틀리에 원리.</li>
+          <li><strong>산과 염기</strong> <span class="tier">[S · 3.0문항]</span> — pH, 약산·짝염기, 혈액 완충 용액, 헨더슨-하셀발흐 식.</li>
+          <li><strong>전이 금속과 배위 화합물</strong> <span class="tier">[B · 1.0문항]</span> — 헤모글로빈 헴(Heme) 속 Fe²⁺와 O₂·CO 리간드 배위 결합.</li>
+          <li><strong>일반화학 실험 연결</strong> <span class="tier">[B · 1.0문항]</span> — 산-염기 적정 곡선과 지시약, 표준 용액 농도 계산.</li>
+        </ul>
+      </div>
+      <div class="inline-jump">
+        <button class="jump-link" data-open="view-ch01">1장 · 숨 쉬고 피가 도는 몸 첫 레슨 바로 읽기 →</button>
+      </div>
+    </article>
+
+    <article class="chapter" id="md-ch2">
+      <div class="ch-num">2장</div>
+      <h3 class="ch-title">밥 먹고 힘 나는 몸 (소화 · 혈당 · 에너지 대사)</h3>
+      <div class="scene"><strong>몸의 장면</strong> 방금 먹은 탄수화물·단백질·지방이 소화관을 거쳐 혈당이 오르고, 인슐린이 세포 문을 열어 힘(ATP)과 체온으로 바뀝니다.</div>
+      <div class="step">
+        <div class="step-label">1단 줌인 · 생물 (생리·세포·대사 [S+A])</div>
+        <p>소화 효소와 흡수, 혈당 조절(인슐린·글루카곤), 미토콘드리아와 <strong>세포의 구성물질</strong>, <strong>물질대사·에너지 [A · 3.1문항]</strong>.</p>
+      </div>
+      <div class="step">
+        <div class="step-label">2단 줌인 · 일반화학 · 유기화학</div>
+        <ul>
+          <li><strong>열화학과 열역학</strong> <span class="tier">[A · 2.5문항]</span> — 엔탈피(ΔH), 엔트로피(ΔS), 자유에너지(ΔG), ATP 짝지음.</li>
+          <li><strong>반응 속도</strong> <span class="tier">[A · 2.0문항]</span> — 활성화 에너지(Ea), 효소 촉매, 속도식·반감기.</li>
+          <li><strong>산화·환원과 전기화학 기초</strong> <span class="tier">[A · 2.0문항]</span> — 포도당 산화와 NADH → O₂ 전자전달.</li>
+          <li><strong>유기 · 입체화학</strong> <span class="tier">[A · 2.0문항]</span> — D-포도당, L-아미노산, 카이랄성, R/S, E/Z.</li>
+          <li><strong>유기 · 작용기의 반응 입문</strong> <span class="tier">[S · 5.0문항 중 생체축]</span> — 에스터·아마이드 가수분해와 알코올·카보닐 산화환원.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="chapter" id="md-ch3">
+      <div class="ch-num">3장</div>
+      <h3 class="ch-title">짜고 붓고 땀 나는 몸 (신장 배설 · 수분 · 전해질)</h3>
+      <div class="scene"><strong>몸의 장면</strong> 짠 국물을 먹은 날 물을 많이 마시게 되고, 콩팥이 노폐물과 물·염분을 걸러 부기와 체액 농도를 맞춥니다.</div>
+      <div class="step">
+        <div class="step-label">1단 줌인 · 생물 &amp; 2단 줌인 · 화학</div>
+        <ul>
+          <li>네프론, ADH·알도스테론, 세포막 인지질 이중층과 <strong>삼투·능동수송</strong>.</li>
+          <li><strong>용액의 성질 [S]</strong>(삼투압 Π = MRT, 증기압 내림), <strong>화학 결합 [A · 2.0문항]</strong>(수소결합·소수성 상호작용), <strong>유기 · 구조·명명·물리적 성질 [A · 3.0문항]</strong>(pKa와 흡수).</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="chapter" id="md-ch4">
+      <div class="ch-num">4장</div>
+      <h3 class="ch-title">느끼고 움직이고 생각하는 몸 (신경 · 근육 · 내분비)</h3>
+      <div class="scene"><strong>몸의 장면</strong> 뜨거운 것을 만지면 0.1초 만에 손을 떼고, 생각하고 감정을 느끼며, 근육이 수축하고 호르몬이 전신을 조율합니다.</div>
+      <div class="step">
+        <div class="step-label">1단 줌인 · 생물 &amp; 2단 줌인 · 화학</div>
+        <ul>
+          <li>뉴런 활동전위, 시냅스, 근원섬유, 시상하부-뇌하수체, <strong>세포골격</strong>.</li>
+          <li><strong>원자 구조와 주기적 성질 [A · 2.0문항]</strong>(Na⁺/K⁺ 수화 반지름), <strong>전기화학 심화 [A]</strong>(네른스트 식과 막전위), <strong>유기 카보닐/아민 반응 [S]</strong>.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="chapter" id="md-ch5">
+      <div class="ch-num">5장</div>
+      <h3 class="ch-title">아프고 낫는 몸 (면역 · 세균 · 바이러스 · 항생제)</h3>
+      <div class="scene"><strong>몸의 장면</strong> 바이러스·세균이 침입하면 열이 나고 항체가 공격하며, 항생제는 세균만 골라 잡습니다.</div>
+      <div class="step">
+        <div class="step-label">1단 줌인 · 생물 &amp; 2단 줌인 · 화학</div>
+        <ul>
+          <li><strong>면역 [A · 3.3문항]</strong>(선천/후천, B/T세포, 항체, MHC) · <strong>원핵세포와 바이러스 [B · 1.6문항]</strong>.</li>
+          <li><strong>혼성·공명·분자 오비탈 [A]</strong>(펩타이드 공명, β-락탐 고리) · <strong>유기 핵심 반응 [S]</strong>(SN1/SN2, E1/E2, 첨가, 방향족).</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="chapter" id="md-ch6">
+      <div class="ch-num">6장</div>
+      <h3 class="ch-title">닮고 자라고 고치는 몸 (유전 · 분자생물학 · 분열)</h3>
+      <div class="scene"><strong>몸의 장면</strong> 형질이 이어지고, 상처가 아물며, 유전자 스위치가 켜지고 꺼집니다.</div>
+      <div class="step">
+        <div class="step-label">1단 줌인 · 생물 &amp; 2단 줌인 · 화학</div>
+        <ul>
+          <li><strong>유전 [S · 7.7문항]</strong>(멘델, 복제·전사·번역, 발현 조절, 단백질 이동, 실험 기법) · <strong>세포 주기·분열 [A]</strong>.</li>
+          <li>염기쌍 수소결합·스태킹, 인산 에스터와 히스톤 아세틸화(친핵성 아실 치환).</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="chapter" id="md-ch7">
+      <div class="ch-num">7장</div>
+      <h3 class="ch-title">세포 하나가 사람이 되기까지 (생식 · 발생 + 총마무리)</h3>
+      <div class="scene"><strong>몸의 장면</strong> 수정란 하나가 분열하고 자리를 잡아 앞·뒤, 위·아래 축과 장기를 만듭니다.</div>
+      <div class="step">
+        <div class="step-label">1단 줌인 · 생물 &amp; 2단 완결 · 순수 화학 총정리</div>
+        <ul>
+          <li><strong>생식과 발생 [S · 2.6문항]</strong> — 배우자, 수정, 난할, 낭배·기관 형성, 모포젠 기울기, 줄기세포.</li>
+          <li>유기 명명법(IUPAC) 및 반응 시약 총정리 · <strong>일반화학 실험 총정리 [B · 1.0문항]</strong>.</li>
+        </ul>
+      </div>
+    </article>
+
+    <h2 id="md-map">공식 출제범위 20개 단원 · 누락 0% 검증표</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th class="c">번호</th><th>자연과학Ⅰ 생명과학 (총 30.0문항)</th><th class="c">평균</th><th class="c">중요도</th><th class="c">배치</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="c">1</td><td>동물 생리 (순환·호흡·배설·내분비·소화·신경·근육)</td><td class="c">8.0</td><td class="c">S</td><td class="c">1·2·3·4장</td></tr>
+          <tr><td class="c">2</td><td>유전 (유전현상·복제·발현과 조절·단백질 이동)</td><td class="c">7.7</td><td class="c">S</td><td class="c">6장</td></tr>
+          <tr><td class="c">3</td><td>세포의 구조·기능·구성물질</td><td class="c">3.7</td><td class="c">A</td><td class="c">2·3·4·6장</td></tr>
+          <tr><td class="c">4</td><td>생명체의 방어 기작 (면역)</td><td class="c">3.3</td><td class="c">A</td><td class="c">5장</td></tr>
+          <tr><td class="c">5</td><td>물질대사·에너지·신호전달</td><td class="c">3.1</td><td class="c">A</td><td class="c">2·4장</td></tr>
+          <tr><td class="c">6</td><td>생식과 발생</td><td class="c">2.6</td><td class="c">S</td><td class="c">7장</td></tr>
+          <tr><td class="c">7</td><td>원핵세포와 바이러스의 특성과 생장</td><td class="c">1.6</td><td class="c">B</td><td class="c">5장</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="tbl-wrap" style="margin-top: 14px;">
+      <table>
+        <thead>
+          <tr><th class="c">번호</th><th>자연과학Ⅱ 화학 (일반화학 20 + 유기화학 10)</th><th class="c">평균</th><th class="c">중요도</th><th class="c">배치</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="c">8</td><td>유기 · 작용기의 반응</td><td class="c">5.0</td><td class="c">S</td><td class="c">2·4·5·6장</td></tr>
+          <tr><td class="c">9</td><td>일반화학 · 산과 염기</td><td class="c">3.0</td><td class="c">S</td><td class="c">1·3장</td></tr>
+          <tr><td class="c">10</td><td>일반화학 · 기체·액체·고체·용액</td><td class="c">3.0</td><td class="c">S</td><td class="c">1·3장</td></tr>
+          <tr><td class="c">11</td><td>유기 · 구조·명명법·물리적 성질</td><td class="c">3.0</td><td class="c">A</td><td class="c">3·7장</td></tr>
+          <tr><td class="c">12</td><td>일반화학 · 열화학과 열역학</td><td class="c">2.5</td><td class="c">A</td><td class="c">2장</td></tr>
+          <tr><td class="c">13</td><td>유기 · 입체화학</td><td class="c">2.0</td><td class="c">A</td><td class="c">2장</td></tr>
+          <tr><td class="c">14</td><td>일반화학 · 화학 평형</td><td class="c">2.0</td><td class="c">A</td><td class="c">1장</td></tr>
+          <tr><td class="c">15</td><td>일반화학 · 반응 속도</td><td class="c">2.0</td><td class="c">A</td><td class="c">2장</td></tr>
+          <tr><td class="c">16</td><td>일반화학 · 산화·환원과 전기화학</td><td class="c">2.0</td><td class="c">A</td><td class="c">2·4장</td></tr>
+          <tr><td class="c">17</td><td>일반화학 · 원자 구조와 주기적 성질</td><td class="c">2.0</td><td class="c">A</td><td class="c">4장</td></tr>
+          <tr><td class="c">18</td><td>일반화학 · 화학 결합·분자 구조·분자 오비탈</td><td class="c">2.0</td><td class="c">A</td><td class="c">3·5·6장</td></tr>
+          <tr><td class="c">19</td><td>일반화학 · 전이 금속과 배위 화합물</td><td class="c">1.0</td><td class="c">B</td><td class="c">1장</td></tr>
+          <tr><td class="c">20</td><td>일반화학 · 일반화학 실험</td><td class="c">1.0</td><td class="c">B</td><td class="c">1·7장</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ================= 1장 레슨 뷰 ================= -->
+  <div id="view-ch01" class="view">
+    <header>
+      <div class="eyebrow">MDEET 몸 → 원리 첫 번째 레슨 · 1장</div>
+      <h1>숨 쉬고 피가 도는 몸</h1>
+      <p class="lead">폐포를 넘어 손끝까지 가는 산소 한 모금과, 운동을 해도 pH 7.4를 지키는 혈액 한 방울에서 생물·일반화학 6단원을 한 번에 끌어냅니다.</p>
+    </header>
+
+    <div class="toc-box" id="toc-ch01">
+      <div class="toc-title">1장 목차 (누르면 해당 단계로 이동)</div>
+      <ul class="toc-list">
+        <li><a href="#m1-scene"><span>0단계 · 몸의 장면</span><span class="toc-sub">출발점</span></a></li>
+        <li><a href="#m1-bio"><span>1. 생물: 폐포 가스교환과 보어 효과</span><span class="toc-sub">동물 생리 S</span></a></li>
+        <li><a href="#m1-gas"><span>2. 기체·용액: 돌턴의 법칙과 헨리의 법칙</span><span class="toc-sub">3.0문항</span></a></li>
+        <li><a href="#m1-eq"><span>3. 화학 평형: 혈액 탄산 평형과 르샤틀리에</span><span class="toc-sub">2.0문항</span></a></li>
+        <li><a href="#m1-acid"><span>4. 산과 염기: 완충 용액과 20:1 비율</span><span class="toc-sub">3.0문항</span></a></li>
+        <li><a href="#m1-heme"><span>5. 배위화합물: 헴 Fe²⁺와 일산화탄소 중독</span><span class="toc-sub">1.0문항</span></a></li>
+        <li><a href="#m1-titr"><span>6. 실험 연결: 약산 중화 적정 곡선</span><span class="toc-sub">1.0문항</span></a></li>
+        <li><a href="#m1-quiz"><span>7. 1장 확인 퀴즈 (3문항)</span><span class="toc-sub">바로 풀기</span></a></li>
+      </ul>
+    </div>
+
+    <div class="scene-box" id="m1-scene">
+      <div class="scene-label">몸의 장면</div>
+      <p>가만히 숨을 들이마시면 공기가 폐포로 들어가 피에 녹고, 심장이 그 피를 온몸으로 뿜어냅니다. 전력 질주를 해 젖산이 쏟아져도, 숨이 가빠 이산화탄소가 빠져나가도 우리 혈액은 <strong>pH 7.35~7.45</strong>의 좁은 울타리를 좀처럼 벗어나지 않습니다.</p>
+    </div>
+
+    <section class="zoom" id="m1-bio">
+      <div class="step-tag">줌인 1단계 · 생물 (동물 생리 · 중요도 S)</div>
+      <h2>폐포의 가스교환과 헤모글로빈의 협동</h2>
+      <p>공기 중 산소(O₂)는 폐포 안쪽에서 혈관 쪽으로 <strong>단순 확산</strong>으로 건너갑니다. 오직 양쪽의 분압 차이만으로 움직입니다.</p>
+      <ul>
+        <li><strong>가스교환 방향</strong>: 폐포 PO₂(약 100 mmHg) &gt; 폐모세혈관(약 40 mmHg)이므로 O₂가 혈액으로 들어오고, PCO₂는 혈액(45 mmHg) &gt; 폐포(40 mmHg)이므로 밖으로 빠져나갑니다.</li>
+        <li><strong>순환 경로</strong>: 우심실 → 폐동맥 → 폐포(가스교환) → 폐정맥 → 좌심방 → 좌심실 → 대동맥 → 온몸 조직.</li>
+      </ul>
+      <div class="point">
+        <strong>보어 효과 (기출 단골):</strong> 활발히 뛰는 근육은 <strong>온도↑ · PCO₂↑ · pH↓</strong>가 되며 산소 해리 곡선이 <strong>오른쪽(우편위)</strong>으로 이동해 같은 PO₂에서도 조직에 O₂를 더 많이 내려놓습니다. 반대로 태아 헤모글로빈(HbF)은 좌편위되어 모체 혈액에서 O₂를 받아옵니다.
+      </div>
+    </section>
+
+    <section class="zoom" id="m1-gas">
+      <div class="step-tag">줌인 2단계 · 일반화학 (기체·용액 · 중요도 S · 평균 3.0문항)</div>
+      <h2>돌턴의 분압 법칙과 헨리의 법칙</h2>
+      <div class="eq">
+        돌턴의 분압 법칙: P_전체 = P₁ + P₂ + P₃ + … , &nbsp; P_i = X_i × P_전체
+        <small>특정 기체의 분압은 전체 압력에 몰분율(X_i)을 곱한 값과 같습니다.</small>
+      </div>
+      <div class="eq">
+        헨리의 법칙: C_용해 = k_H × P_기체 &nbsp; (일정 온도)
+        <small>액체에 녹는 기체 농도는 그 기체 자체의 부분압에 비례합니다(온도↑ → 용해도↓).</small>
+      </div>
+      <ul>
+        <li><strong>고산병</strong>: 산소 비율(약 21%)은 그대로여도 전체 대기압이 낮아져 산소 분압이 떨어집니다.</li>
+        <li><strong>잠수병(감압병)</strong>: 수심 깊은 곳에서 혈액에 많이 녹아 있던 질소(N₂)가 급상승(압력↓) 때 기포로 튀어나옵니다.</li>
+      </ul>
+    </section>
+
+    <section class="zoom" id="m1-eq">
+      <div class="step-tag">줌인 3단계 · 일반화학 (화학 평형 · 중요도 A · 평균 2.0문항)</div>
+      <h2>혈액 속 탄산 평형과 르샤틀리에 원리</h2>
+      <div class="eq">
+        CO₂(g) + H₂O(l) &nbsp;⇌&nbsp; H₂CO₃(aq) &nbsp;⇌&nbsp; H⁺(aq) + HCO₃⁻(aq)
+        <small>왼쪽 CO₂는 '폐 호흡'이, 오른쪽 이온은 '콩팥 배설'과 대사가 조절합니다.</small>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>몸의 상황</th><th>변화 요인</th><th>평형 이동</th><th>혈액 pH</th></tr></thead>
+          <tbody>
+            <tr><td>과호흡</td><td>CO₂ 배출↑</td><td><strong>왼쪽 이동</strong></td><td>[H⁺]↓ → <strong>pH 상승</strong>(종이봉투 호흡으로 보완)</td></tr>
+            <tr><td>호흡 억제</td><td>CO₂ 축적↑</td><td><strong>오른쪽 이동</strong></td><td>[H⁺]↑ → <strong>pH 하락</strong></td></tr>
+            <tr><td>격한 운동</td><td>젖산(H⁺)↑</td><td><strong>왼쪽 이동</strong></td><td>CO₂ 생성↑ → 거친 호흡으로 배출</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="zoom" id="m1-acid">
+      <div class="step-tag">줌인 4단계 · 일반화학 (산과 염기 · 중요도 S · 평균 3.0문항)</div>
+      <h2>완충 용액과 헨더슨-하셀발흐 식</h2>
+      <div class="eq">
+        pH = pKₐ + log₁₀( [짝염기 A⁻] / [약산 HA] ) &nbsp;=&nbsp; pKₐ + log₁₀( [HCO₃⁻] / [H₂CO₃] )
+        <small>37℃ 혈장에서 겉보기 pKₐ ≈ 6.1, 정상 pH 7.4 유지를 위해 [HCO₃⁻] : [H₂CO₃] ≈ 20 : 1 비율을 유지합니다.</small>
+      </div>
+      <ul>
+        <li><strong>유효 완충 구간</strong>: [A⁻] = [HA]일 때(pH = pKₐ) 완충 능력이 최대이며, 보통 <strong>pKₐ ± 1</strong> 범위입니다.</li>
+        <li><strong>희석 함정</strong>: 완충 용액에 물을 타도 비율이 같아 pH 자체는 거의 안 변하지만, 버틸 수 있는 용량(완충 용량)은 줄어듭니다.</li>
+      </ul>
+    </section>
+
+    <section class="zoom" id="m1-heme">
+      <div class="step-tag">줌인 5단계 · 일반화학 (배위 화합물 · 중요도 B · 평균 1.0문항)</div>
+      <h2>헤모글로빈 헴 속 Fe²⁺와 일산화탄소 중독</h2>
+      <ul>
+        <li><strong>헴의 배위수 6</strong>: 중심 금속 <strong>Fe²⁺(루이스 산)</strong>가 네 자리 <strong>포르피린 고리</strong>(질소 4개) + 글로빈의 히스티딘(5번째) + O₂(6번째)와 결합해 6배위 팔면체 착물을 이룹니다.</li>
+        <li><strong>CO 중독과 고압 산소 치료</strong>: CO는 Fe²⁺ 결합력이 O₂의 200배 이상이며 해리 곡선을 좌편위시킵니다. 고압 100% O₂는 헨리의 법칙으로 혈장 용존 O₂를 늘리고 HbCO + O₂ ⇌ HbO₂ + CO 평형을 오른쪽으로 밉니다.</li>
+      </ul>
+    </section>
+
+    <section class="zoom" id="m1-titr">
+      <div class="step-tag">줌인 6단계 · 일반화학 실험 (적정 곡선 · 중요도 B · 평균 1.0문항)</div>
+      <h2>약산(HA)을 강염기(NaOH)로 적정할 때 4지점</h2>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>적정 지점</th><th>주된 화학종</th><th>핵심</th></tr></thead>
+          <tbody>
+            <tr><td>초기 (V = 0)</td><td>HA만 존재</td><td>Kₐ로 pH 계산</td></tr>
+            <tr><td>반당량점 (½ V_eq)</td><td>[HA] = [A⁻]</td><td><strong>pH = pKₐ</strong>, 최대 완충 구간</td></tr>
+            <tr><td>당량점 (V_eq)</td><td>짝염기 A⁻만 남음</td><td>가수분해 때문에 <strong>pH &gt; 7 (염기성)</strong> · 페놀프탈레인</td></tr>
+            <tr><td>당량점 이후</td><td>과량 OH⁻ 지배</td><td>n_산·M_산·V_산 = n_염기·M_염기·V_염기</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="quiz-wrap" id="m1-quiz">
+      <h2 class="quiz-head">1장 확인 퀴즈 (3문항)</h2>
+      <p class="quiz-sub">각 선택지를 누르면 바로 정답과 핵심 풀이가 열립니다.</p>
+
+      <div class="q-item" data-ans="2">
+        <div class="q-num">문항 1 · 탄산 평형 + 보어 효과</div>
+        <div class="q-text">긴장으로 숨을 너무 빠르게 쉬는 과호흡 환자에게 종이봉투를 대고 숨 쉬게 해 주었을 때, 혈액에서 일어나는 변화로 옳은 것은?</div>
+        <div class="choices">
+          <button class="choice-btn" data-idx="0">① 혈중 CO₂ 분압이 더 낮아져 탄산 평형이 왼쪽으로 이동한다.</button>
+          <button class="choice-btn" data-idx="1">② 혈중 H⁺ 농도가 낮아져 혈액 pH가 7.6 이상으로 더 상승한다.</button>
+          <button class="choice-btn" data-idx="2">③ 내쉰 CO₂를 다시 들이마셔 평형이 오른쪽으로 이동하고 pH가 정상 쪽으로 내려온다.</button>
+          <button class="choice-btn" data-idx="3">④ 혈중 pH가 낮아지므로 헤모글로빈 산소 해리 곡선은 왼쪽으로 이동한다.</button>
+        </div>
+        <div class="q-exp">
+          <strong>정답 ③</strong><br>
+          내쉰 CO₂를 다시 들이마시면 탄산 평형(CO₂ + H₂O ⇌ H⁺ + HCO₃⁻)이 오른쪽으로 이동해 줄었던 [H⁺]가 회복되며 pH가 정상(7.4) 쪽으로 내려옵니다. ④에서 pH가 낮아지면 해리 곡선은 우편위됩니다.
+        </div>
+      </div>
+
+      <div class="q-item" data-ans="1">
+        <div class="q-num">문항 2 · 완충 용액과 약산 적정 곡선</div>
+        <div class="q-text">0.1 M 약산 HA(pKₐ = 4.8) 20 mL를 0.1 M NaOH 수용액으로 적정할 때에 대한 설명으로 옳지 않은 것은?</div>
+        <div class="choices">
+          <button class="choice-btn" data-idx="0">① NaOH를 10 mL 넣었을 때 용액의 pH는 4.8이다.</button>
+          <button class="choice-btn" data-idx="1">② NaOH를 20 mL 넣은 당량점에서는 용액의 pH가 정확히 7.0이 된다.</button>
+          <button class="choice-btn" data-idx="2">③ NaOH 10 mL 부근은 [HA]와 [A⁻]가 비슷해 완충 능력이 가장 크다.</button>
+          <button class="choice-btn" data-idx="3">④ 지시약으로는 메틸오렌지(pH 3.1~4.4)보다 페놀프탈레인(pH 8.2~10.0)이 적절하다.</button>
+        </div>
+        <div class="q-exp">
+          <strong>정답 ② (옳지 않음)</strong><br>
+          당량점(20 mL)에서는 짝염기 A⁻가 남아 염기성 가수분해를 하므로 pH가 7보다 큽니다.
+        </div>
+      </div>
+
+      <div class="q-item" data-ans="3">
+        <div class="q-num">문항 3 · 헴 배위화합물과 고압 산소 치료</div>
+        <div class="q-text">일산화탄소(CO) 중독 및 고압 산소 치료에 대한 설명으로 옳은 것을 고른 것은?</div>
+        <div class="choices">
+          <button class="choice-btn" data-idx="0">① 헴(Heme) 속 중심 금속은 Fe³⁺이며 포르피린은 한자리 리간드이다.</button>
+          <button class="choice-btn" data-idx="1">② CO는 Fe²⁺에 대한 결합력이 O₂보다 약해 쉽게 밀려난다.</button>
+          <button class="choice-btn" data-idx="2">③ CO에 중독되면 남은 헤모글로빈의 산소 해리 곡선이 오른쪽으로 이동해 산소가 너무 빨리 떨어진다.</button>
+          <button class="choice-btn" data-idx="3">④ 고압 산소 치료는 헨리의 법칙으로 혈장 용존 O₂를 늘리고, 경쟁 평형(HbCO + O₂ ⇌ HbO₂ + CO)을 오른쪽으로 민다.</button>
+        </div>
+        <div class="q-exp">
+          <strong>정답 ④</strong><br>
+          헴의 중심 금속은 Fe²⁺, 포르피린은 네 자리 리간드이며 CO는 해리 곡선을 좌편위시킵니다. 고압 산소 치료는 혈장 용해 O₂ 증가 + 르샤틀리에 이동으로 CO를 떼어 냅니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-nav">
+      <button class="jump-link" data-open="view-roadmap">← 전체 로드맵 (7장)으로</button>
+      <span style="color:var(--muted);">다음: 2장 · 밥 먹고 힘 나는 몸</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  var navBtns = document.querySelectorAll('.nav-btn');
+  var views = document.querySelectorAll('.view');
+
+  function showView(id) {
+    views.forEach(function (v) {
+      v.classList.toggle('active', v.id === id);
+    });
+    navBtns.forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-target') === id);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  navBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      showView(btn.getAttribute('data-target'));
+    });
+  });
+
+  document.querySelectorAll('.jump-link[data-open]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      showView(btn.getAttribute('data-open'));
+    });
+  });
+
+  document.getElementById('jump-toc').addEventListener('click', function () {
+    var active = document.querySelector('.view.active');
+    var toc = active ? active.querySelector('.toc-box') : null;
+    if (toc) toc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.querySelectorAll('.q-item').forEach(function (item) {
+    var ans = Number(item.getAttribute('data-ans'));
+    var btns = item.querySelectorAll('.choice-btn');
+    var exp = item.querySelector('.q-exp');
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var idx = Number(btn.getAttribute('data-idx'));
+        btns.forEach(function (b, i) {
+          b.classList.remove('correct', 'wrong');
+          if (i === ans) b.classList.add('correct');
+          else if (i === idx) b.classList.add('wrong');
+        });
+        exp.classList.add('open');
+      });
+    });
+  });
+</script>
+</body>
+</html>

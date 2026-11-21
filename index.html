@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>공부방</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #111111;
+    --muted: #555555;
+    --line: #e5e7eb;
+    --soft: #888888;
+  }
+  * { box-sizing: border-box; }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 18px 120px;
+  }
+
+  header {
+    padding: 92px 0 34px;
+  }
+
+  h1 {
+    margin: 0 0 16px;
+    font-size: 34px;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  }
+
+  .lead {
+    margin: 0;
+    max-width: 30em;
+    font-size: 16.5px;
+    color: var(--muted);
+  }
+
+  .list {
+    border-top: 1px solid var(--line);
+    margin-top: 22px;
+  }
+
+  .row {
+    display: block;
+    padding: 30px 2px 32px;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .row-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .row-title {
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.5;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
+    transition: border-color 0.15s ease;
+  }
+
+  .row:hover .row-title,
+  .row:focus-visible .row-title {
+    border-bottom-color: var(--ink);
+  }
+
+  .row-arrow {
+    flex: none;
+    font-size: 15px;
+    color: var(--soft);
+    line-height: 1.5;
+    transform: translateX(0);
+    transition: transform 0.15s ease, color 0.15s ease;
+  }
+
+  .row:hover .row-arrow,
+  .row:focus-visible .row-arrow {
+    color: var(--ink);
+    transform: translateX(3px);
+  }
+
+  .row-desc {
+    margin: 7px 0 0;
+    font-size: 14.5px;
+    color: var(--muted);
+  }
+
+  .row:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 4px;
+  }
+
+  footer {
+    margin-top: 46px;
+    font-size: 13px;
+    color: var(--soft);
+  }
+
+  @media (max-width: 480px) {
+    header { padding: 64px 0 28px; }
+    h1 { font-size: 28px; }
+    .lead { font-size: 15.5px; }
+    .row { padding: 26px 2px 28px; }
+    .row-title { font-size: 17.5px; }
+    .row-desc { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header>
+    <h1>공부방</h1>
+    <p class="lead">몸에서 원리로, 실전에서 이론으로 내려가는 개인 학습 노트</p>
+  </header>
+
+  <div class="list">
+
+    <a class="row" href="mdeet.html">
+      <div class="row-head">
+        <span class="row-title">MDEET 공부방</span>
+        <span class="row-arrow" aria-hidden="true">→</span>
+      </div>
+      <p class="row-desc">전체 7장 로드맵 ↔ 1장 · 숨 쉬고 피가 도는 몸</p>
+    </a>
+
+    <a class="row" href="tuunsa.html">
+      <div class="row-head">
+        <span class="row-title">주식 × 투자자산운용사 공부방</span>
+        <span class="row-arrow" aria-hidden="true">→</span>
+      </div>
+      <p class="row-desc">전체 6장 로드맵 ↔ 1장 · 차트와 호가창을 처음 열었을 때</p>
+    </a>
+
+  </div>
+
+  <footer>개인 학습 노트 · 2026년 11월</footer>
+
+</div>
+
+</body>
+</html>

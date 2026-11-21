@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주식 × 투자자산운용사 공부방</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #111111;
+    --muted: #555555;
+    --line: #e5e7eb;
+    --line-strong: #111111;
+    --soft: #f8f9fa;
+    --accent: #1e3a8a;
+    --ok: #166534;
+    --warn: #991b1b;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard", "Noto Sans KR", sans-serif;
+    line-height: 1.72;
+    -webkit-text-size-adjust: 100%;
+  }
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .nav-tabs {
+    display: flex;
+    gap: 18px;
+  }
+  .nav-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 13px 2px 11px;
+    font-family: inherit;
+    font-size: 14.5px;
+    color: var(--muted);
+    cursor: pointer;
+    font-weight: 500;
+  }
+  .nav-btn.active {
+    color: var(--ink);
+    border-bottom-color: var(--accent);
+    font-weight: 700;
+  }
+  .toc-top-btn {
+    background: none;
+    border: 1px solid var(--line);
+    padding: 5px 10px;
+    font-family: inherit;
+    font-size: 12.5px;
+    color: var(--muted);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .toc-top-btn:hover {
+    border-color: var(--line-strong);
+    color: var(--ink);
+  }
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 18px 72px;
+  }
+  .view { display: none; }
+  .view.active { display: block; }
+  header {
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line-strong);
+    margin-bottom: 20px;
+  }
+  .eyebrow {
+    font-size: 12.5px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-size: 24px;
+    line-height: 1.32;
+    margin: 0 0 10px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .lead {
+    margin: 0;
+    font-size: 15px;
+    color: var(--muted);
+  }
+  .toc-box {
+    margin: 18px 0 26px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    scroll-margin-top: 64px;
+  }
+  .toc-title {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .toc-list li {
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+  .toc-list li:first-child {
+    border-top: none;
+  }
+  .toc-list a {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 10px;
+    padding: 7px 0;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .toc-list a:hover {
+    color: var(--accent);
+  }
+  .toc-sub {
+    font-size: 12.5px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .principles {
+    margin: 20px 0 28px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    background: var(--soft);
+    font-size: 14px;
+  }
+  .principles p { margin: 5px 0; }
+  h2 {
+    font-size: 18px;
+    margin: 32px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    scroll-margin-top: 64px;
+  }
+  .chapter, section.zoom {
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+    scroll-margin-top: 64px;
+  }
+  .chapter:last-of-type, section.zoom:last-of-type {
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .ch-num, .step-tag {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 3px;
+  }
+  .ch-title, section.zoom h2 {
+    font-size: 18.5px;
+    font-weight: 700;
+    margin: 0 0 10px;
+    padding: 0;
+    border: none;
+    line-height: 1.35;
+  }
+  h3 {
+    font-size: 15.5px;
+    margin: 16px 0 6px;
+    font-weight: 700;
+  }
+  p {
+    margin: 0 0 10px;
+    font-size: 15px;
+  }
+  ul {
+    margin: 5px 0 10px;
+    padding-left: 18px;
+  }
+  li {
+    margin: 5px 0;
+    font-size: 14.5px;
+  }
+  .scene, .scene-box {
+    font-size: 14.5px;
+    padding: 12px 14px;
+    border-left: 2px solid var(--line-strong);
+    background: var(--soft);
+    margin: 0 0 14px;
+  }
+  .scene-label {
+    font-size: 12.5px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .step { margin-top: 10px; }
+  .step-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .tier {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .eq {
+    margin: 12px 0;
+    padding: 12px 14px;
+    background: var(--soft);
+    border: 1px solid var(--line);
+    font-size: 14.5px;
+    font-weight: 600;
+  }
+  .eq small {
+    display: block;
+    margin-top: 4px;
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .point {
+    margin: 12px 0 4px;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--accent);
+    font-size: 14px;
+  }
+  .point strong { color: var(--accent); }
+  .inline-jump {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+  }
+  .jump-link {
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .tbl-wrap {
+    overflow-x: auto;
+    margin-top: 10px;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+  }
+  th, td {
+    text-align: left;
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    font-weight: 700;
+    background: var(--soft);
+    white-space: nowrap;
+  }
+  tr:last-child td { border-bottom: none; }
+  .quiz-wrap {
+    margin-top: 28px;
+    scroll-margin-top: 64px;
+  }
+  .quiz-head {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 6px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .quiz-sub {
+    margin: 0 0 14px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .q-item {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .q-item:last-child {
+    border-bottom: 1px solid var(--line-strong);
+  }
+  .q-num {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .q-text {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .choices {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .choice-btn {
+    width: 100%;
+    text-align: left;
+    background: #ffffff;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    padding: 9px 12px;
+    font-size: 14.2px;
+    line-height: 1.5;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .choice-btn:hover { border-color: var(--line-strong); }
+  .choice-btn.correct {
+    border-color: var(--ok);
+    background: #f0fdf4;
+    font-weight: 600;
+  }
+  .choice-btn.wrong {
+    border-color: var(--warn);
+    background: #fef2f2;
+  }
+  .q-exp {
+    display: none;
+    margin-top: 10px;
+    padding: 10px 12px;
+    background: var(--soft);
+    border-left: 2px solid var(--line-strong);
+    font-size: 14px;
+  }
+  .q-exp.open { display: block; }
+  .foot-nav {
+    margin-top: 26px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+</style>
+</head>
+<body>
+<nav class="topbar" aria-label="공부방 이동">
+  <div class="topbar-inner">
+    <div class="nav-tabs">
+      <button class="nav-btn active" data-target="view-roadmap">전체 로드맵 (6장)</button>
+      <button class="nav-btn" data-target="view-ch01">1장 · 차트 입문 레슨</button>
+    </div>
+    <button class="toc-top-btn" id="jump-toc">목차 ↑</button>
+  </div>
+</nav>
+
+<div class="wrap">
+  <!-- ================= 전체 로드맵 뷰 ================= -->
+  <div id="view-roadmap" class="view active">
+    <header>
+      <div class="eyebrow">실전 주식 입문 × 투자자산운용사</div>
+      <h1>주식과 투운사를 하나로 엮는 줌인 로드맵</h1>
+      <p class="lead">차트와 계좌라는 눈에 보이는 실전 장면에서 출발해, 금융투자협회 투자자산운용사 3과목 · 16개 세부교과목(100문항) 원리로 내려가는 6장 공부 순서표입니다.</p>
+    </header>
+
+    <div class="toc-box" id="toc-roadmap">
+      <div class="toc-title">로드맵 목차 (누르면 해당 장으로 이동)</div>
+      <ul class="toc-list">
+        <li><a href="#rm-ch1"><span>1장 · 차트와 호가창을 처음 열었을 때</span><span class="toc-sub">0단계 입문 · 기술적 분석</span></a></li>
+        <li><a href="#rm-ch2"><span>2장 · 이 회사 지금 비싼가, 싼가?</span><span class="toc-sub">재무제표 · 주식운용</span></a></li>
+        <li><a href="#rm-ch3"><span>3장 · 한 종목에 다 담지 말 것</span><span class="toc-sub">분산 · 리스크 · 성과</span></a></li>
+        <li><a href="#rm-ch4"><span>4장 · 금리·환율 뉴스가 뜨면 시장이 출렁인다</span><span class="toc-sub">거시 · 채권 · 해외</span></a></li>
+        <li><a href="#rm-ch5"><span>5장 · 주식 너머의 시장</span><span class="toc-sub">파생 · 대안 · 부동산</span></a></li>
+        <li><a href="#rm-ch6"><span>6장 · 계좌 열고 세금 아끼며 법 지키기</span><span class="toc-sub">상품 · 세제 · 윤리법규</span></a></li>
+        <li><a href="#rm-map"><span>투운사 16개 세부교과목 누락 제로 대조표</span><span class="toc-sub">100문항 검증</span></a></li>
+      </ul>
+    </div>
+
+    <div class="principles">
+      <p><strong>시험 기본 틀 (금융투자협회 기준):</strong> 3과목 총 100문항 · 120분 (4지선다). 과목별 정답률 40% 이상(1과목 8개 · 2과목 12개 · 3과목 20개)이면서 전체 <strong>70문항(70%) 이상</strong> 합격. 공식 기출은 비공개이지만 핵심 개념·계산·법규 포인트가 반복 출제됩니다.</p>
+      <p><strong>공부 순서 원칙:</strong> 차트 → 기업 숫자 → 분산투자 → 거시·채권 → 파생·부동산 → 계좌·세금·법규 순으로 따라오면, 주식 실전 감각과 투운사 시험 범위가 한 줄로 연결됩니다.</p>
+    </div>
+
+    <article class="chapter" id="rm-ch1">
+      <div class="ch-num">1장 · 왕초보 0단계 출발점</div>
+      <h3 class="ch-title">차트와 호가창을 처음 열었을 때</h3>
+      <div class="scene"><strong>실전 장면:</strong> 주식 앱에서 일봉 차트를 켰는데 빨간 봉과 파란 봉, 위아래 가느다란 꼬리, 5일·20일·60일선, 거래량 막대가 움직입니다. "이 그림이 매수세와 매도세 중 누가 이겼다는 뜻이지?"를 먼저 읽습니다.</div>
+      <div class="step">
+        <div class="step-label">주식 실전 줌인 (백지 상태 입문)</div>
+        <ul>
+          <li><strong>캔들(봉차트)</strong>: 시가·고가·저가·종가, 양봉·음봉, 윗꼬리·아랫꼬리 힘겨루기, 도지.</li>
+          <li><strong>이동평균선과 거래량</strong>: 5·20·60·120일선, 정배열/역배열, 골든/데드크로스, 지지선·저항선.</li>
+        </ul>
+      </div>
+      <div class="step">
+        <div class="step-label">투운사 원리 연결 <span class="tier">제2과목 · 투자분석기법 [12문항 중 기술적 분석 축]</span></div>
+        <ul>
+          <li>다우 이론, 추세·패턴·지표(이동평균선·이격도·투자심리선·MACD·RSI·볼린저밴드).</li>
+          <li>효율적 시장 가설(약형·준강형·강형)에서 기술적 분석이 어디까지 통하는가.</li>
+        </ul>
+      </div>
+      <div class="inline-jump">
+        <button class="jump-link" data-open="view-ch01">1장 · 차트 입문 첫 레슨 바로 읽기 →</button>
+      </div>
+    </article>
+
+    <article class="chapter" id="rm-ch2">
+      <div class="ch-num">2장 · 종목 고르기와 기업 가치</div>
+      <h3 class="ch-title">이 회사 지금 비싼가, 싼가?</h3>
+      <div class="scene"><strong>실전 장면:</strong> "어제 실적이 잘 나왔는데 왜 주가는 떨어졌을까?", "PER이 8배면 싸고 40배면 비싼 걸까?" 차트 뒤에 있는 회사 실적과 가격표를 들여다봅니다.</div>
+      <div class="step">
+        <div class="step-label">주식 실전 &amp; 투운사 원리 <span class="tier">제2과목 투자분석기법 + 제3과목 주식투자운용 [6문항]</span></div>
+        <ul>
+          <li><strong>재무제표 3종과 밸류에이션</strong>: 재무상태표·손익계산서·현금흐름표, EPS·PER·PBR·ROE·EV/EBITDA, 배당할인모형(DDM).</li>
+          <li><strong>주식투자운용/투자전략 [6문항]</strong>: 탑다운 vs 바텀업, 가치주 vs 성장주, 액티브 vs 패시브(추적오차), 배당락·증자·자사주 소각.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="chapter" id="rm-ch3">
+      <div class="ch-num">3장 · 포트폴리오의 뼈대</div>
+      <h3 class="ch-title">한 종목에 다 담지 말 것: 분산 · 위험 · 성과</h3>
+      <div class="scene"><strong>실전 장면:</strong> 한 종목 몰빵보다 성격 다른 자산을 섞었을 때 계좌 출렁임이 줄어듭니다. 1년 뒤 내 수익률 15%가 잘한 건지, 시장이 20% 올라서 못 미친 건지도 따져 봅니다.</div>
+      <div class="step">
+        <div class="step-label">투운사 원리 연결 <span class="tier">분산 [5문항] · 리스크관리 [8문항] · 운용결과분석 [4문항]</span></div>
+        <ul>
+          <li><strong>분산투자기법 [5문항]</strong>: 상관계수와 분산효과, 체계적 vs 비체계적 위험, CAPM(베타 β · SML · CML).</li>
+          <li><strong>리스크관리 [8문항]</strong>: 표준편차·VaR(최대예상손실)·듀레이션/델타, 신용·유동성·운영 위험 관리.</li>
+          <li><strong>투자운용결과분석 [4문항]</strong>: 시간가중 vs 금액가중수익률, 샤프 비율·트레이너 비율·젠센 알파(α).</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="chapter" id="rm-ch4">
+      <div class="ch-num">4장 · 거시 흐름과 금리·환율</div>
+      <h3 class="ch-title">금리·환율 뉴스가 뜨면 시장이 출렁인다</h3>
+      <div class="scene"><strong>실전 장면:</strong> 한국은행·미국 연준이 기준금리를 움직이거나 원/달러 환율이 급등할 때 성장주·채권 ETF·미국 지수 ETF가 제각각 움직입니다.</div>
+      <div class="step">
+        <div class="step-label">투운사 원리 연결 <span class="tier">거시경제 [4문항] · 채권 [6문항] · 해외증권 [5문항]</span></div>
+        <ul>
+          <li><strong>거시경제 [4문항]</strong>: GDP·물가·고용, 통화·재정정책, 경기순환 국면별 자산 배분, 환율 결정 이론.</li>
+          <li><strong>채권투자운용 [6문항]</strong>: 금리-채권가격 역관계, 만기수익률(YTM), 듀레이션·볼록성, 장단기 금리차, 사다리·바벨·면역 전략.</li>
+          <li><strong>해외증권투자운용 [5문항]</strong>: 글로벌 자산배분, 환헤지(H) vs 환노출(UH), 주식예탁증서(ADR·GDR).</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="chapter" id="rm-ch5">
+      <div class="ch-num">5장 · 주식 바깥의 도구들</div>
+      <h3 class="ch-title">하락장 방어와 대체자산: 파생 · 대안 · 부동산</h3>
+      <div class="scene"><strong>실전 장면:</strong> "지수가 떨어질 때 버는 인버스 ETF를 오래 들고 있으면 왜 손해가 날까?", "리츠(REITs)와 사모펀드는 뭐가 다를까?"를 정리합니다.</div>
+      <div class="step">
+        <div class="step-label">투운사 원리 연결 <span class="tier">파생 [6문항] · 대안 [5문항] · 부동산 [5문항]</span></div>
+        <ul>
+          <li><strong>파생상품 [6문항]</strong>: 선도·선물 보유비용과 헤지, 콜/풋 옵션 손익구조·그릭스·풋-콜 패리티, 스왑.</li>
+          <li><strong>대안투자 [5문항]</strong>: 사모펀드(PEF), 헤지펀드 전략, 원자재·인프라·신용파생(CDS).</li>
+          <li><strong>부동산관련 상품 [5문항]</strong>: 리츠(REITs)·부동산펀드·PF·MBS, 감정평가 3방식.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="chapter" id="rm-ch6">
+      <div class="ch-num">6장 · 실제 내 계좌와 시험의 절반</div>
+      <h3 class="ch-title">계좌 열고 세금 아끼며 법 지키기</h3>
+      <div class="scene"><strong>실전 장면:</strong> 증권사 앱에서 일반 계좌·중개형 ISA·연금저축·IRP 중 어디에 담을지 고르고, 배당·양도세와 자본시장법의 선을 확인합니다.</div>
+      <div class="step">
+        <div class="step-label">투운사 원리 연결 <span class="tier">금융상품 [8문항] · 세제 [7문항] · 윤리/법규/협회 [19문항]</span></div>
+        <ul>
+          <li><strong>금융상품 [8문항]</strong>: 집합투자기구(펀드·ETF·MMF), 신탁·랩어카운트, ELS/DLS, 퇴직연금(DB·DC·IRP).</li>
+          <li><strong>세제관련 법규/세무전략 [7문항]</strong>: 이자·배당 원천징수(15.4%), 금융소득종합과세(2,000만 원), 국내·해외주식 양도세, ISA·연금 절세.</li>
+          <li><strong>직무윤리 [5문항] · 자본시장법규 [11문항] · 협회규정 [3문항]</strong>: 선관·충실의무, 6대 금융투자업, 금소법(6대 판매원칙), 불공정거래 금지.</li>
+        </ul>
+      </div>
+    </article>
+
+    <h2 id="rm-map">투운사 16개 세부교과목 누락 제로 대조표</h2>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>시험 과목</th><th>세부 교과목</th><th>문항</th><th>위치</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1과목 (20)</td><td>세제관련 법규/세무전략</td><td>7</td><td>6장</td></tr>
+          <tr><td>1과목 (20)</td><td>금융상품</td><td>8</td><td>6장</td></tr>
+          <tr><td>1과목 (20)</td><td>부동산관련 상품</td><td>5</td><td>5장</td></tr>
+          <tr><td>2과목 (30)</td><td>대안투자운용/투자전략</td><td>5</td><td>5장</td></tr>
+          <tr><td>2과목 (30)</td><td>해외증권투자운용/투자전략</td><td>5</td><td>4장</td></tr>
+          <tr><td>2과목 (30)</td><td>투자분석기법 (기본적·기술적)</td><td>12</td><td>1·2장</td></tr>
+          <tr><td>2과목 (30)</td><td>리스크관리</td><td>8</td><td>3장</td></tr>
+          <tr><td>3과목 (50)</td><td>직무윤리</td><td>5</td><td>6장</td></tr>
+          <tr><td>3과목 (50)</td><td>자본시장 관련 법규(금소법 포함)</td><td>11</td><td>6장</td></tr>
+          <tr><td>3과목 (50)</td><td>한국금융투자협회 규정</td><td>3</td><td>6장</td></tr>
+          <tr><td>3과목 (50)</td><td>주식투자운용/투자전략</td><td>6</td><td>2장</td></tr>
+          <tr><td>3과목 (50)</td><td>채권투자운용/투자전략</td><td>6</td><td>4장</td></tr>
+          <tr><td>3과목 (50)</td><td>파생상품투자운용/투자전략</td><td>6</td><td>5장</td></tr>
+          <tr><td>3과목 (50)</td><td>투자운용결과분석</td><td>4</td><td>3장</td></tr>
+          <tr><td>3과목 (50)</td><td>거시경제</td><td>4</td><td>4장</td></tr>
+          <tr><td>3과목 (50)</td><td>분산투자기법</td><td>5</td><td>3장</td></tr>
+          <tr><td><strong>합계</strong></td><td><strong>3과목 · 16개 세부교과목</strong></td><td><strong>100</strong></td><td><strong>100%</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ================= 1장 레슨 뷰 ================= -->
+  <div id="view-ch01" class="view">
+    <header>
+      <div class="eyebrow">주식 × 투운사 첫 번째 레슨 · 1장</div>
+      <h1>차트와 호가창을 처음 열었을 때</h1>
+      <p class="lead">캔들·윗꼬리·아랫꼬리·이평선이라는 왕초보 0단계 언어를 익히고, 그대로 투운사 제2과목 「투자분석기법(기술적 분석 · 효율적 시장 가설)」까지 연결합니다.</p>
+    </header>
+
+    <div class="toc-box" id="toc-ch01">
+      <div class="toc-title">1장 목차 (누르면 해당 부분으로 이동)</div>
+      <ul class="toc-list">
+        <li><a href="#c1-scene"><span>0단계 · 오늘의 차트 장면</span><span class="toc-sub">출발점</span></a></li>
+        <li><a href="#c1-candle"><span>1. 캔들(봉) 하나 뜯어보기: 시가·고가·저가·종가와 꼬리</span><span class="toc-sub">왕초보 핵심</span></a></li>
+        <li><a href="#c1-vol"><span>2. 거래량: 가격은 속여도 에너지는 못 속인다</span><span class="toc-sub">수급 읽기</span></a></li>
+        <li><a href="#c1-ma"><span>3. 이동평균선과 지지·저항선</span><span class="toc-sub">추세와 벽</span></a></li>
+        <li><a href="#c1-tuunsa"><span>4. 투운사 제2과목 줌인: 기술적 분석 이론과 효율적 시장 가설</span><span class="toc-sub">시험 원리</span></a></li>
+        <li><a href="#c1-quiz"><span>5. 1장 확인 퀴즈 (3문항)</span><span class="toc-sub">바로 풀기</span></a></li>
+      </ul>
+    </div>
+
+    <div class="scene-box" id="c1-scene">
+      <div class="scene-label">오늘의 차트 장면</div>
+      <p>주식 앱에서 일봉(하루 1개 봉) 차트를 열면 빨간색·파란색 막대가 줄지어 서 있고, 위아래로 가는 선이 삐죽 나와 있으며, 막대 사이를 선 몇 개가 지나갑니다. 아래쪽엔 세로 막대(거래량)가 깔려 있습니다. 이 그림은 "이 회사가 좋다/나쁘다"가 아니라 <strong>"그날 아침부터 오후 3시 30분까지 산 사람과 판 사람이 어떻게 싸워서 누가 이겼는지"</strong>를 그린 전투 기록입니다.</p>
+    </div>
+
+    <section class="zoom" id="c1-candle">
+      <div class="step-tag">줌인 1단계 · 왕초보 0단계</div>
+      <h2>캔들(봉) 하나 뜯어보기: 4개의 숫자와 꼬리 힘겨루기</h2>
+      <p>차트의 막대 하나(일봉 기준 하루)에는 딱 <strong>네 가지 가격</strong>만 들어 있습니다.</p>
+      <ul>
+        <li><strong>시가(시작가)</strong>: 장이 열릴 때(오전 9시) 처음 거래된 가격</li>
+        <li><strong>종가(끝난 가격)</strong>: 장이 닫힐 때(오후 3시 30분) 마지막으로 체결된 가격 — 가장 중요합니다.</li>
+        <li><strong>고가 · 저가</strong>: 하루 중 가장 비쌌던 순간의 가격과 가장 쌌던 순간의 가격</li>
+      </ul>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>모양 이름</th><th>색과 구조 (한국 차트 기준)</th><th>장중 힘겨루기 해석</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>양봉</strong> (보통 빨강)</td>
+              <td>시가보다 종가가 높게 끝남<br>(아래쪽이 시가, 위쪽이 종가)</td>
+              <td>아침보다 비싸게 끝났으니 <strong>매수세(사려는 힘)의 승리</strong>. 몸통이 길수록 매수 힘이 강함.</td>
+            </tr>
+            <tr>
+              <td><strong>음봉</strong> (보통 파랑)</td>
+              <td>시가보다 종가가 낮게 끝남<br>(위쪽이 시가, 아래쪽이 종가)</td>
+              <td>아침보다 싸게 끝났으니 <strong>매도세(팔려는 힘)의 승리</strong>. 몸통이 길수록 하락 압력이 큼.</td>
+            </tr>
+            <tr>
+              <td><strong>긴 윗꼬리</strong></td>
+              <td>몸통 위로 가는 선이 길게 솟음</td>
+              <td>장중에 한때 크게 올랐는데, 고점에서 판 사람이 쏟아져 <strong>밀려 내려온 흔적</strong>. 고점 부근에서 나오면 조심 신호.</td>
+            </tr>
+            <tr>
+              <td><strong>긴 아랫꼬리</strong></td>
+              <td>몸통 아래로 가는 선이 길게 뻗음</td>
+              <td>장중에 크게 빠졌는데, 싸다고 판단한 <strong>저가 매수세가 강하게 받아 올려 끝낸 흔적</strong>.</td>
+            </tr>
+            <tr>
+              <td><strong>도지(십자형 +)</strong></td>
+              <td>시가와 종가가 거의 같고 위아래 꼬리만 있음</td>
+              <td>하루 종일 싸웠는데 <strong>비긴 상태</strong>. 상승·하락 추세 끝에서 방향이 바뀔 수 있는 눈치 싸움 구간.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="zoom" id="c1-vol">
+      <div class="step-tag">줌인 2단계 · 진짜 에너지 확인</div>
+      <h2>거래량: 가격은 잠시 흔들려도 돈의 크기는 남는다</h2>
+      <p>차트 아래쪽 막대그래프가 <strong>거래량</strong>(그날 실제로 사고팔린 주식 수)입니다. 캔들이 <strong>"어디로 갔나"</strong>를 보여 준다면, 거래량은 <strong>"얼마나 진심으로 갔나"</strong>를 보여 줍니다.</p>
+      <ul>
+        <li><strong>거래량 실린 장대양봉</strong>: 많은 사람이 돈을 걸고 밀어 올린 진짜 상승 힘입니다.</li>
+        <li><strong>거래량 말라 있는 반등</strong>: 소수의 거래로 잠깐 오른 것이라 다시 힘이 빠지기 쉽습니다.</li>
+        <li><strong>고점에서 거래량 폭증 + 긴 윗꼬리 음봉</strong>: 사고 싶어서 몰린 개미 물량에 큰손들이 대거 팔고 나갔을 가능성(이탈 신호)을 의심해야 합니다.</li>
+      </ul>
+    </section>
+
+    <section class="zoom" id="c1-ma">
+      <div class="step-tag">줌인 3단계 · 선과 벽 읽기</div>
+      <h2>이동평균선과 지지선 · 저항선</h2>
+      <p>하루하루의 들쭉날쭉한 잔파도를 지우고 큰 물결을 보려고, 최근 N일 동안의 종가를 평균 내 이어 그린 선이 <strong>이동평균선(이평선)</strong>입니다.</p>
+      <ul>
+        <li><strong>주요 기간</strong>: <strong>5일선</strong>(일주일 단기 추세), <strong>20일선</strong>(약 한 달 평균 · 생명선/심리선), <strong>60일선</strong>(한 분기 · 중기 수급선), <strong>120일선</strong>(반기 · 장기 경기선).</li>
+        <li><strong>정배열 vs 역배열</strong>: 위에서부터 <code>주가 → 5일 → 20일 → 60일 → 120일</code> 순으로 나란히 우상향하면 최근에 산 사람도 오래 들고 있던 사람도 다 수익이라 분위기가 좋은 <strong>정배열</strong>, 정반대로 아래로 쏟아져 내리면 <strong>역배열</strong>입니다.</li>
+        <li><strong>골든크로스 · 데드크로스</strong>: 짧은 선(예: 5일·20일선)이 긴 선(예: 60일선)을 아래에서 위로 뚫고 올라가는 순간이 <strong>골든크로스</strong>(상승 전환 기대), 반대로 위에서 아래로 뚫고 내려가면 <strong>데드크로스</strong>(하락 전환 경고).</li>
+        <li><strong>지지선과 저항선</strong>: 주가가 내려오다 번번이 멈추고 튀어 오르는 바닥 구간이 <strong>지지선</strong>("여기서 사려는 사람이 많다"), 올라가다 번번이 맞고 떨어지는 천장 구간이 <strong>저항선</strong>("본전 오면 팔려는 사람이 많다")입니다.</li>
+      </ul>
+      <div class="point">
+        <strong>한 가지 함정 기억하기:</strong> 이동평균선은 '과거 종가의 평균'이기 때문에 주가가 이미 움직인 뒤에 따라오는 <strong>후행성(느린 신호)</strong>을 가집니다. 그래서 실전에서도 시험에서도 단독 만능 신호로 보지 않습니다.
+      </div>
+    </section>
+
+    <section class="zoom" id="c1-tuunsa">
+      <div class="step-tag">줌인 4단계 · 투운사 제2과목 연결 (투자분석기법 12문항)</div>
+      <h2>시험에서는 이 차트 개념을 어떻게 물을까?</h2>
+      <p>방금 본 캔들·이평선·지지저항이 투자자산운용사 제2과목 <strong>「투자분석기법」</strong>의 기술적 분석 파트와 효율적 시장 가설에 그대로 나옵니다.</p>
+
+      <h3>① 기술적 분석의 기본 가정 3가지 (선지 단골)</h3>
+      <ul>
+        <li>주가는 시장의 수요·공급(모든 정보)을 반영하여 움직인다.</li>
+        <li>주가는 무작위가 아니라 일정한 <strong>추세</strong>를 가지고 움직인다.</li>
+        <li>시장 참여자의 심리가 비슷하므로 역사는 <strong>반복</strong>된다.</li>
+      </ul>
+
+      <h3>② 다우 이론 &amp; 패턴 · 보조지표 핵심</h3>
+      <ul>
+        <li><strong>다우 이론</strong>: 주가 움직임을 주추세(1년 이상) · 중기추세(수주~수개월) · 소추세(일일 변동) 3가지로 나누며, <strong>거래량이 추세를 확인</strong>해야 신뢰할 수 있다고 봅니다.</li>
+        <li><strong>패턴 구분</strong>: 추세가 꺾이는 <strong>반전형</strong>(머리어깨형 Head &amp; Shoulders, 이중천정/이중바닥) vs 잠깐 쉬었다가 원래 방향으로 가는 <strong>지속형</strong>(삼각형, 깃발형).</li>
+        <li><strong>시험에 자주 나오는 공식 2개</strong>:
+          <div class="eq">
+            이격도(%) = (당일 주가 ÷ N일 이동평균주가) × 100
+            <small>주가가 이평선에서 너무 멀어지면 다시 평균으로 돌아오려는 성질 이용(100보다 너무 크면 과열, 너무 작으면 과매도).</small>
+          </div>
+          <div class="eq">
+            투자심리선(%) = (최근 10일간 주가 상승 일수 ÷ 10) × 100
+            <small>보통 75% 이상이면 과열(단기 매도 고려), 25% 이하이면 침체(단기 매수 고려)로 해석합니다.</small>
+          </div>
+        </li>
+      </ul>
+
+      <h3>③ 차트의 천적: 효율적 시장 가설 (EMH · 기출 최빈출)</h3>
+      <p>시장이 정보에 얼마나 빠르게 반응하는지에 따라 세 단계로 나뉘며, 어느 단계냐에 따라 <strong>차트 분석이 먹히는지 여부</strong>가 시험 문제로 나옵니다.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>시장 단계</th><th>주가에 이미 반영된 정보</th><th>통하지 않는 분석법</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>약형</strong> (Weak)</td>
+              <td>과거의 주가, 거래량 등 시장 거래 자료</td>
+              <td><strong>기술적 분석(차트 분석)</strong> 무용.<br>(단, 재무제표 기반 기본적 분석은 유효할 여지 있음)</td>
+            </tr>
+            <tr>
+              <td><strong>준강형</strong> (Semi-strong)</td>
+              <td>과거 자료 + <strong>모든 공개 정보</strong> (실적 공시, 뉴스 등)</td>
+              <td>기술적 분석 + <strong>기본적 분석</strong> 모두 초과수익 불가.<br>(내부자 미공개 정보로만 초과수익 가능)</td>
+            </tr>
+            <tr>
+              <td><strong>강형</strong> (Strong)</td>
+              <td>공개 정보 + <strong>비공개(내부) 정보까지 전부</strong></td>
+              <td>어떠한 분석이나 내부 정보로도 초과수익 불가.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="quiz-wrap" id="c1-quiz">
+      <h2 class="quiz-head">1장 확인 퀴즈 (3문항)</h2>
+      <p class="quiz-sub">선택지를 누르면 바로 정답과 해설이 열립니다.</p>
+
+      <div class="q-item" data-ans="2">
+        <div class="q-num">문항 1 · 캔들과 꼬리 해석 (왕초보 0단계)</div>
+        <div class="q-text">장중에 주가가 크게 떨어졌다가 저가 매수세가 강하게 들어오면서 시가보다 높은 가격으로 마감했고, 평소보다 거래량도 크게 늘었습니다. 이 일봉의 모습과 해석으로 가장 알맞은 것은?</div>
+        <div class="choices">
+          <button class="choice-btn" data-idx="0">① 윗꼬리가 긴 음봉이며 고점 매도 압력이 강하다.</button>
+          <button class="choice-btn" data-idx="1">② 도지형 캔들이며 거래량이 적어 방향성이 약하다.</button>
+          <button class="choice-btn" data-idx="2">③ 아랫꼬리가 긴 양봉이며 하락을 방어하고 매수세가 이긴 신호다.</button>
+          <button class="choice-btn" data-idx="3">④ 데드크로스가 완성된 상태이므로 추가 하락이 확정됐다.</button>
+        </div>
+        <div class="q-exp">
+          <strong>정답 ③</strong><br>
+          장중에 아래로 깊게 빠졌다가 다시 끌어올렸으니 <strong>긴 아랫꼬리</strong>가 생기고, 시가보다 높게 끝났으니 <strong>양봉</strong>입니다. 여기에 거래량까지 늘었다면 아래 가격대에서 실제로 강한 저가 매수 자금이 받쳐 주었다고 해석할 수 있습니다.
+        </div>
+      </div>
+
+      <div class="q-item" data-ans="1">
+        <div class="q-num">문항 2 · 기술적 분석과 보조지표 (투운사 2과목형)</div>
+        <div class="q-text">기술적 분석의 지표 및 패턴에 대한 설명으로 옳지 않은 것은?</div>
+        <div class="choices">
+          <button class="choice-btn" data-idx="0">① 단기 이동평균선이 장기 이동평균선을 아래에서 위로 돌파하면 골든크로스라 한다.</button>
+          <button class="choice-btn" data-idx="1">② 머리어깨형(Head and Shoulders)은 기존 추세가 잠시 쉬었다 이어지는 대표적인 지속형 패턴이다.</button>
+          <button class="choice-btn" data-idx="2">③ 이동평균선은 과거 주가의 평균을 쓰므로 추세 전환을 늦게 알리는 후행성 한계가 있다.</button>
+          <button class="choice-btn" data-idx="3">④ 투자심리선이 75% 이상이면 단기 과열 국면으로 해석하는 편이다.</button>
+        </div>
+        <div class="q-exp">
+          <strong>정답 ② (옳지 않음)</strong><br>
+          머리어깨형과 이중천정/이중바닥형은 기존 상승·하락 추세가 꺾이고 반대 방향으로 돌아서는 대표적인 <strong>반전형 패턴</strong>입니다. 지속형 패턴에는 삼각형, 깃발형, 쐐기형 등이 해당합니다.
+        </div>
+      </div>
+
+      <div class="q-item" data-ans="0">
+        <div class="q-num">문항 3 · 효율적 시장 가설과 차트 분석 (기출 최빈출)</div>
+        <div class="q-text">약형 효율적 시장(Weak-form EMH)이 성립한다고 가정할 때, 이에 대한 설명으로 옳은 것은?</div>
+        <div class="choices">
+          <button class="choice-btn" data-idx="0">① 과거 주가와 거래량 패턴만 분석하는 기술적 분석으로는 지속적인 초과수익을 내기 어렵다.</button>
+          <button class="choice-btn" data-idx="1">② 기업의 재무제표와 공시 자료를 분석하는 기본적 분석도 전혀 효과가 없다.</button>
+          <button class="choice-btn" data-idx="2">③ 기업 내부의 미공개 정보까지 주가에 이미 반영되어 있다.</button>
+          <button class="choice-btn" data-idx="3">④ 골든크로스 매매 전략이 장기적으로 시장 평균을 압도할 수 있다.</button>
+        </div>
+        <div class="q-exp">
+          <strong>정답 ①</strong><br>
+          <strong>약형</strong> 효율적 시장에서는 과거의 주가·거래량 정보가 이미 모두 가격에 반영돼 있으므로 <strong>차트·기술적 분석(④ 포함)으로는 초과수익을 얻을 수 없습니다</strong>. 공개 정보까지 반영해 기본적 분석까지 무력화되는 것은 ② <strong>준강형</strong>, 미공개 정보까지 반영된 것은 ③ <strong>강형</strong>입니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="foot-nav">
+      <button class="jump-link" data-open="view-roadmap">← 전체 로드맵 (6장)으로</button>
+      <span style="color:var(--muted);">다음: 2장 · 기업 가치(PER·PBR·ROE)</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  var navBtns = document.querySelectorAll('.nav-btn');
+  var views = document.querySelectorAll('.view');
+
+  function showView(id) {
+    views.forEach(function (v) {
+      v.classList.toggle('active', v.id === id);
+    });
+    navBtns.forEach(function (b) {
+      b.classList.toggle('active', b.getAttribute('data-target') === id);
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  navBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      showView(btn.getAttribute('data-target'));
+    });
+  });
+
+  document.querySelectorAll('.jump-link[data-open]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      showView(btn.getAttribute('data-open'));
+    });
+  });
+
+  document.getElementById('jump-toc').addEventListener('click', function () {
+    var active = document.querySelector('.view.active');
+    var toc = active ? active.querySelector('.toc-box') : null;
+    if (toc) toc.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    else window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  document.querySelectorAll('.q-item').forEach(function (item) {
+    var ans = Number(item.getAttribute('data-ans'));
+    var btns = item.querySelectorAll('.choice-btn');
+    var exp = item.querySelector('.q-exp');
+    btns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var idx = Number(btn.getAttribute('data-idx'));
+        btns.forEach(function (b, i) {
+          b.classList.remove('correct', 'wrong');
+          if (i === ans) b.classList.add('correct');
+          else if (i === idx) b.classList.add('wrong');
+        });
+        exp.classList.add('open');
+      });
+    });
+  });
+</script>
+</body>
+</html>
